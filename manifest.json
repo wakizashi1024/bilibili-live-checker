@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Bilibili Live Checker",
+    "version": "0.0.7",
+    "description": "B站直播間開播通知",
+    "permissions": ["notifications", "alarms", "storage"],
+    "host_permissions": ["https://*/"],
+    "content_scripts": [
+        {
+            "matches": ["https://space.bilibili.com/*"],
+            "js": ["space.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "icons": {
+        "16": "images/icon16.png",
+        "32": "images/icon32.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    }
+}

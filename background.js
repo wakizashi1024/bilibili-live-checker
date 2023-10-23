@@ -1,32 +1,17 @@
-import { formatedTimeStringFromTimeStamp } from "./utils.js";
+import { formatedTimeStringFromTimeStamp, get_status_info_by_uids } from "./utils.js";
 
 const checkStatus = async () => {
   console.log(
     `-----------------------checkStatus start at ${new Date()}------------------------`
   );
-  let base_url =
-    "https://api.live.bilibili.com/room/v1/Room/get_status_info_by_uids?";
-  //   const uids = [
-  //     "1383815813",
-  //     "1501380958",
-  //     "532705928",
-  //     "698438232",
-  //     "3821157",
-  //     "475656353",
-  //     "3493293266570035",
-  //     "3461582034045213",
-  //   ];
+
   const uids =
     (await chrome.storage.local.get(["watch_list"]))["watch_list"] ?? [];
-  uids.map((id) => {
-    base_url += `uids[]=${id}&`;
-  });
-  const response = await fetch(base_url);
-  const json = await response.json();
-  const data = json.data;
-  //   const living_rooms = Object.fromEntries(
+
+  //   const data = Object.fromEntries(
   //     Object.entries(data).filter(([uid, info]) => info.live_status === 1)
   //   );
+  const data = await get_status_info_by_uids(uids);
   const meta = [];
   const platform = await chrome.runtime.getPlatformInfo();
   console.log(platform);

@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+}
+
+html body #app {
+    width: 800px;
+    height: 600px;
+}
+
+.func-tab {
+    position: sticky;
+    top: 0px;
+    height: 54px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.func-tab>button.tablinks {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: large;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+.func-tab>button.tablinks:hover {
+    background-color: #ddd;
+}
+
+.func-tab>button.tablinks.active {
+    background-color: #ccc;
+}
+
+.func-tab-content {
+    display: none;
+    padding: 4px 4px;
+    border: 1px solid #ccc;
+    border-top: 0px;
+    height: calc(100vh - 54px);
+    overflow-y: hidden;
+}
+
+#up-list-wrapper {
+    height: calc(100% - 50px);
+    overflow-y: scroll;
+    text-align: center;
+}
+
+#up-list {
+    margin: 4px;
+    width: calc(100% - 8px);
+    table-layout: fixed;
+    border-collapse: separate;
+    border: 1px solid rgb(81, 130, 187);
+    border-radius: 5px;
+}
+
+#up-list th {
+    /* border-right: 1px solid black; */
+    position: sticky;
+    top: 0px;
+    background-color: rgb(81, 130, 187);
+    color: #fff;
+    vertical-align: middle;
+    padding: 2px;
+}
+
+#up-list th:last-of-type {
+    border-right: 0px;
+}
+
+#up-list td {
+    border-top: 1px solid rgb(81, 130, 187);
+    /* border-right: 1px solid black; */
+    vertical-align: middle;
+    padding: 1px;
+    word-wrap: break-word;
+    height: 1px;
+    /* for flexbox height % */
+}
+
+#up-list td:last-of-type {
+    border-top: 1px solid rgb(81, 130, 187);
+    border-right: 0px;
+}
+
+#text-watch-list {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: calc(100% - 50px);
+}
+
+#submit-btn,
+#refresh-btn {
+    padding: 2px;
+    width: 100%;
+    height: 50px;
+
+    box-shadow: inset 0px 1px 0px 0px #97c4fe;
+    background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+    background-color: #3d94f6;
+    border-radius: 5px;
+    border: 1px solid #337fed;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #1570cd;
+    font-size: medium;
+}
+
+#submit-btn:hover,
+#refresh-btn:hover {
+    background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+    background-color: #1e62d0;
+}
+
+#logo {
+    height: 100%;
+    margin-right: 10px;
+    float: right;
+}
+
+.action-area {
+    height: 100%;
+    margin: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}

@@ -1,4 +1,4 @@
-import { formatedTimeStringFromTimeStamp, get_status_info_by_uids } from "./utils.js";
+import { formatedTimeStringFromTimeStamp, get_status_info_by_uids, uuid } from "./utils.js";
 
 const checkStatus = async () => {
   console.log(
@@ -27,7 +27,7 @@ const checkStatus = async () => {
         info.live_time > storage_info.last_live_time)
     ) {
       if (platform.os !== "mac") {
-        chrome.notifications.create({
+        chrome.notifications.create(`live_notification_one-${uuid()}: ${info.room_id}`, {
           type: "basic",
           iconUrl: info.face,
           title: `您關注的主播"${info.uname}"開播了，快去直播間(${info.room_id})看看吧！`,
@@ -64,7 +64,7 @@ const checkStatus = async () => {
   console.log(meta);
   if (meta.length > 0) {
     if (meta.length === 1) {
-      chrome.notifications.create({
+      chrome.notifications.create(`live_notification_one-${uuid()}: ${meta[0].info.room_id}`, {
         type: "basic",
         iconUrl: meta[0].info.face,
         title: `您關注的主播"${meta[0].info.uname}"開播了，快去直播間(${meta[0].info.room_id})看看吧！`,
@@ -95,12 +95,13 @@ const checkStatus = async () => {
     //     )
     //     .join("\n");
         const _messages = meta.map((m) => `${m.info.uname}(${m.info.room_id})`).join("\n");
-        chrome.notifications.create({
-        type: "basic",
-        iconUrl: "images/icon128.png",
-        title: `您關注的${meta.length}位主播開播了，快去看看吧！`,
-        message: _messages,
-      });
+        const _room_ids = meta.map((m) => m.info.room_id);
+        chrome.notifications.create(`live_notification_multi-${uuid()}: [${_room_ids.join(", ")}]`, {
+            type: "basic",
+            iconUrl: "images/icon128.png",
+            title: `您關注的${meta.length}位主播開播了，快去看看吧！`,
+            message: _messages,
+        });
     }
   }
 
@@ -130,6 +131,25 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     }
   }
 });
+
+chrome.notifications.onClicked.addListener(async (notificationId) => {
+    if (notificationId.includes("live_notification_one-")) {
+        const room_id = notificationId.split(":")[1].trim();
+        
+        // console.log(notificationId, room_id)
+        await chrome.tabs.create({
+            url: `https://live.bilibili.com/${room_id}`,
+        });
+    } else if (notificationId.includes("live_notification_multi-")) {
+        const room_ids = notificationId.split(":")[1].trim().replace(/[\[\]]/g, "").split(",").map(str => str.trim());
+        // console.log(notificationId, room_ids)
+        room_ids.map((room_id) => {
+            chrome.tabs.create({
+                url: `https://live.bilibili.com/${room_id}`,
+            });
+        });
+    }
+})
 
 const keepAlive = () => setInterval(chrome.runtime.getPlatformInfo, 20e3);
 chrome.runtime.onStartup.addListener(keepAlive);

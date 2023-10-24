@@ -19,15 +19,17 @@ const update_up_list = async () => {
     console.log(list_data)
     up_list_el.tBodies[0].innerHTML = Object.entries(list_data).sort(([a_uid, a_info], [b_uid, b_info]) => {
         if (a_info.live_status === 1 && b_info.live_status === 1) {
-            return 0;
+            return b_info.live_time - a_info.live_time; // The lastest liver show first
         } else if (a_info.live_status === 1 && b_info.live_status !== 1) {
             return -1;
         } else if (a_info.live_status !== 1 && b_info.live_status === 1) {
             return 1;
         }
 
-        // return b_info.live_status - a_info.live_status;
-        return a_info.live_time - b_info.live_time;
+        if (a_info.live_status === b_info.live_status) {
+            return a_info.uid - b_info.uid;
+        }
+        return a_info.live_status - b_info.live_status;
     }).map(([uid, info]) => {
         // console.log(info)
         return (
@@ -36,7 +38,7 @@ const update_up_list = async () => {
                     <div style="padding-top: 2px; padding-bottom: 2px">
                         <img src="${info.face}" style="width: 48px; height: 48px; border-radius: 48px"><br>
                         ${info.uname}<br>
-                        (${info.uid})
+                        ${info.uid}
                     </div>
                 </td>
                 <td>${live_status_string[info.live_status]}</td>
@@ -47,7 +49,7 @@ const update_up_list = async () => {
                 <td>
                     <div class="action-area">
                         <a class="remove_from_watch_list" href="${info.uid}">取消訂閱</a>
-                        <a class="open_room_tab" href="https://live.bilibili.com/${info.room_id}">開啟直播間<br>(${info.room_id})</a>
+                        <a class="open_room_tab" href="https://live.bilibili.com/${info.room_id}">開啟直播間<br>${info.room_id}</a>
                     </div>
                 </td>
             </tr>`

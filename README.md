@@ -24,6 +24,7 @@ Chrome擴充功能，自動檢查B站直播間狀態並發送通知
 
 * [X] 跨域呼叫Bilibili REST API查詢主播直播間狀態
 * [X] 當直播間狀態為開播中時調用chrome.notification送出通知(MacOS同時多位主播合併訊息成一筆)
+* [X] 點擊通知開啟直播間頁面(MacOS同時多位主播會開啟多個視窗，請小心轟炸)
 * [X] 後端腳本(service worker)不進入休眠(inactive)
 * [X] 主播空間頁面嵌入開播通知按鈕
 * [X] 編輯監控主播id清單(初版，尚有改進空間)

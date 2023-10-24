@@ -14,3 +14,7 @@ export const get_status_info_by_uids = async (uids) => {
 
   return data;
 }
+
+export const uuid = () => {
+    return crypto.randomUUID();
+}
